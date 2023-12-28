@@ -35,9 +35,9 @@ class Window(QtWidgets.QWidget):
 
         self.loadData()
 
-        self.__init_signals()
+        self.__initSignals()
 
-    def __init_signals(self) -> None:
+    def __initSignals(self) -> None:
         """
         Инициализация сигналов
 
@@ -45,7 +45,7 @@ class Window(QtWidgets.QWidget):
         """
         self.ui.dial.valueChanged.connect(self.__doValueChangedDial)
         self.ui.horizontalSlider.valueChanged.connect(self.__doValueChangedSlider)
-        self.ui.comboBox.currentTextChanged.connect(self.__set_lcd_mode)
+        self.ui.comboBox.currentTextChanged.connect(self.__setLcdMode)
 
 
     def __doValueChangedDial(self) -> None:
@@ -69,16 +69,14 @@ class Window(QtWidgets.QWidget):
 
     def keyPressEvent(self, event: QtGui.QKeyEvent) -> None:
         """
-        Вращение диала клавишами "+" и "-"
+        Вращение Dial клавишами "+" и "-"
         """
         if event.key() == 43:
             self.ui.dial.setValue(self.ui.dial.value() + 1)
-            # print("Новое значение dial =", self.ui.dial.value())
         if event.key() == 45:
             self.ui.dial.setValue(self.ui.dial.value() - 1)
-            # print("Новое значение dial =", self.ui.dial.value())
 
-    def __set_lcd_mode(self) -> None:
+    def __setLcdMode(self) -> None:
         """
         Изменение системы счисления для QLCDNumber
         """
@@ -100,7 +98,7 @@ class Window(QtWidgets.QWidget):
         """
 
         self.ui.comboBox.setCurrentText(self.settings.value("ComboBox", "dec"))
-        self.__set_lcd_mode()
+        self.__setLcdMode()
         self.ui.dial.setValue(self.settings.value("Dial", 0))
         self.ui.horizontalSlider.setValue(self.settings.value("Dial", 0))
         self.ui.lcdNumber.display(self.ui.horizontalSlider.value())
