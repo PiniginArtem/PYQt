@@ -10,8 +10,7 @@
 4. поток необходимо запускать и останавливать при нажатии на кнопку
 """
 import time
-import requests
-from PySide6 import QtWidgets, QtCore
+from PySide6 import QtWidgets
 from form_weather import Ui_FormWeather
 from a_threads import WeatherHandler
 
@@ -23,16 +22,14 @@ class WindowWeather(QtWidgets.QWidget):
 
         self.ui = Ui_FormWeather()
         self.ui.setupUi(self)
-        self.preSet()
+
+        self.ui.lineEditLatitude.setText(str(59.938778))
+        self.ui.lineEditLongitude.setText(str(30.314629))
 
         self.weatherTread = WeatherHandler(float(self.ui.lineEditLatitude.text()),
                                            float(self.ui.lineEditLongitude.text()))
 
         self.initSignals()
-
-    def preSet(self) -> None:
-        self.ui.lineEditLatitude.setText(str(59.938778))
-        self.ui.lineEditLongitude.setText(str(30.314629))
 
     def initSignals(self):
         self.ui.pushButtonGetData.clicked.connect(self.onPushButtonGetDataClicked)
@@ -47,8 +44,6 @@ class WindowWeather(QtWidgets.QWidget):
         self.ui.radioButton3.toggled.connect(self.updateDelay)
         self.ui.radioButton5.toggled.connect(self.updateDelay)
         self.ui.radioButton10.toggled.connect(self.updateDelay)
-        self.ui.lineEditLatitude.textChanged.connect(lambda data: self.weatherTread.setLat(data))
-        self.ui.lineEditLongitude.textChanged.connect(lambda data: self.weatherTread.setLon(data))
 
     def updateDelay(self, _):
 
@@ -61,6 +56,8 @@ class WindowWeather(QtWidgets.QWidget):
 
         if self.weatherTread.getStatus():
             return
+
+        self.weatherTread.setСoordinates(float(self.ui.lineEditLatitude.text()), float(self.ui.lineEditLongitude.text()))
 
         self.ui.lineEditLatitude.setEnabled(False)
         self.ui.lineEditLongitude.setEnabled(False)

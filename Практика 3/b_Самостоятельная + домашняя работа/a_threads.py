@@ -36,9 +36,6 @@ class WeatherHandler(QtCore.QThread):
     def __init__(self, lat, lon, parent=None):
         super().__init__(parent)
 
-        self.lat = lat
-        self.lon = lon
-
         self.__api_url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true"
         print(self.__api_url)
         self.__delay = 10
@@ -59,13 +56,9 @@ class WeatherHandler(QtCore.QThread):
     def getStatus(self):
         return self.__status
 
-    def setLat(self, lat: float):
-        self.lat = lat
-        self.__api_url = f"https://api.open-meteo.com/v1/forecast?latitude={self.lat}&longitude={self.lon}&current_weather=true"
-
-    def setLon(self, lon: float):
-        self.lon = lon
-        self.__api_url = f"https://api.open-meteo.com/v1/forecast?latitude={self.lat}&longitude={self.lon}&current_weather=true"
+    def setСoordinates(self, lat: float, lon: float):
+        print(lat, lon)
+        self.__api_url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true"
 
     def run(self) -> None:
         # TODO настройте метод для корректной работы
